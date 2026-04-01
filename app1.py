@@ -34,3 +34,11 @@ def run_risk_simulation(df, target, neighbors):
         except:
             risk_report[node] = {"risk_impact": 0, "status": "Inconclusive"}
     return risk_report
+    def calculate_migration_costs(current_cost):
+    options = {
+        "Same-Cloud Shift": current_cost * 0.85, # 15% savings
+        "Type Shift (EC2->Lambda)": current_cost * 0.40, # 60% savings
+        "Cross-Cloud Migration": current_cost * 1.20 # Costly due to egress
+    }
+    return options
+    
