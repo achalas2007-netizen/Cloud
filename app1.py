@@ -13,10 +13,10 @@ def run_anomaly_detection(df, contamination=0.05):
     def find_root_cause(df, target_machine):
     # Simple correlation matrix to find immediate neighbors
     corr_matrix = df.corr()
-    neighbors = corr_matrix[target_machine].sort_values(ascending=False)
+        neighbors = corr_matrix[target_machine].sort_values(ascending=False)
     # Return top 5 potential influencers
-    return neighbors.iloc[1:6].index.tolist()
-    from statsmodels.tsa.stattools import grangercausalitytests
+        return neighbors.iloc[1:6].index.tolist()
+        from statsmodels.tsa.stattools import grangercausalitytests
 
 def run_risk_simulation(df, target, neighbors):
     risk_report = {}
