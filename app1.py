@@ -49,4 +49,30 @@ def run_risk_simulation(df, target, neighbors):
         "Cross-Cloud Migration": current_cost * 1.20 # Costly due to egress
     }
     return options
+    import streamlit as st
+
+st.title("Cloud Nervous System: Dependency-Aware Optimizer")
+
+uploaded_file = st.file_uploader("Upload Machine Metrics (CSV)", type="csv")
+
+if uploaded_file:
+    df = pd.read_csv(uploaded_file)
     
+    # STEP 1: ANOMALY
+    if st.button("1. Detect Anomalies"):
+        anomalies, full_df = run_anomaly_detection(df)
+        st.write(f"Detected {len(anomalies)} suspicious machines.")
+        st.session_state['target'] = anomalies.index[0] # Just take the first one for the demo
+
+    # STEP 2 & 3: ROOT CAUSE & RISK (The USP)
+    if 'target' in st.session_state and st.button("2. Analyze Dependency Risk"):
+        neighbors = find_root_cause(df, st.session_state['target'])
+        risk_data = run_risk_simulation(df, st.session_state['target'], neighbors)
+        st.json(risk_data)
+
+    # STEP 4 & 5: OPTIMIZE & MIGRATE
+    if st.button("3. Simulate Migration & Stability"):
+        costs = calculate_migration_costs(1000) # Dummy cost
+        st.write("Cost Projection:", costs)
+        stability = verify_stability(df, st.session_state['target'], "Type-Shift")
+        st.success(stability)
