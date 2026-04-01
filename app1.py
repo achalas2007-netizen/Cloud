@@ -10,3 +10,9 @@ def run_anomaly_detection(df, contamination=0.05):
     # -1 is an anomaly, 1 is normal
     anomalies = df[df['anomaly_score'] == -1]
     return anomalies, df
+    def find_root_cause(df, target_machine):
+    # Simple correlation matrix to find immediate neighbors
+    corr_matrix = df.corr()
+    neighbors = corr_matrix[target_machine].sort_values(ascending=False)
+    # Return top 5 potential influencers
+    return neighbors.iloc[1:6].index.tolist()
